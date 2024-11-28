@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Book Collection Co-op</title>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://source.unsplash.com/1920x1080/?library,bookshelf');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: #ffffff;
+    }
+
+    main {
+      backdrop-filter: blur(6px);
+      background-color: rgb(245, 235, 220); /* Adds a translucent background */
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 1200px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #bookImage {
+      display: block;
+      margin: 0 auto 20px;
+      width: 150px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      text-align: center;
+      color: #4b3603;
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: #4b3603;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    h3 {
+      color: #150f01;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    section {
+      margin-bottom: 30px;
+    }
+
+    form {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #4b3603;
+    }
+
+    input, select, button {
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: 1px solid #dddddd;
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus, button:focus {
+      outline: none;
+      border-color: #f9c74f;
+    }
+
+    button {
+      background-color: #f9c74f;
+      color: rgb(73, 71, 1);
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ffa600;
+    }
+
+    #booksList {
+      list-style: none;
+      padding: 0;
+      max-width: 900px;
+      margin: 0 auto;
+      color: #665806;
+    }
+
+    .book-item {
+      background-color: rgb(235, 231, 231);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #624605;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    .book-item h3 {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      color: #4b3603;
+    }
+
+    .book-item h3 i {
+      margin-right: 8px;
+      color: #4b3603;
+    }
+
+    .book-item p {
+      margin: 5px 0;
+      color: #4b3603;
+      font-size: 1rem;
+    }
+
+    .action-buttons {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .action-buttons button {
+      margin-left: 10px;
+      background-color: #e74c3c;
+      border: none;
+      color: rgb(255, 255, 255);
+      cursor: pointer;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .action-buttons button:hover {
+      background-color: #c0392b;
+    }
+
+    #editBookFormContainer {
+      display: none; /* Initially hidden */
+    }
+
+    /* Search Bar */
+    #searchBook {
+      padding: 12px;
+      width: 98%;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      border-radius: 4px;
+      border: 1px solid #dddddd;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      form {
+        width: 100%;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <img id="bookImage" src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Book Collection Logo">
+    <h1>Creative Book Collection Co-op</h1>
+
+    <!-- Add Book Section -->
+    <section>
+      <h2>Add a New Book</h2>
+      <form id="addBookForm">
+        <input type="text" id="title" placeholder="Title" required>
+        <input type="text" id="author" placeholder="Author" required>
+        <input type="number" id="price" placeholder="Price" required>
+        <input type="number" id="copiesLeft" placeholder="Copies Left" required>
+        <select id="genre" required>
+          <option value="">Select A Book Genre</option>
+        </select>
+        <button type="submit">Add A Book</button>
+      </form>
+      <h3>Add a New Genre</h3>
+      <form id="addGenreForm">
+        <input type="text" id="genreName" placeholder="Enter genre name" required>
+        <button type="submit">Add Genre</button>
+      </form>
+    </section>
+
+    <!-- Search Bar Section -->
+    <section>
+      <input type="text" id="searchBook" placeholder="Search for a book by title..." onkeyup="searchBooks()">
+    </section>
+
+    <!-- Edit Book Section -->
+    <section id="editBookFormContainer">
+      <h2>Edit Book</h2>
+      <form id="editBookForm" onsubmit="submitEdit(event)">
+        <input type="hidden" id="editBookId">
+        <label for="editTitle">Title</label>
+        <input type="text" id="editTitle" placeholder="Title" required>
+        
+        <label for="editAuthor">Author</label>
+        <input type="text" id="editAuthor" placeholder="Author" required>
+        
+        <label for="editPrice">Price</label>
+        <input type="number" id="editPrice" placeholder="Price" required>
+        
+        <label for="editCopiesLeft">Copies Left</label>
+        <input type="number" id="editCopiesLeft" placeholder="Copies Left" required>
+        
+        <label for="editGenre">Genre</label>
+        <select id="editGenre" required>
+          <option value="">Select A Book Genre</option>
+        </select>
+        
+        <button type="submit">Update Book</button>
+      </form>
+    </section>
+
+    <!-- Books List Section -->
+    <section>
+      <h2>Books List</h2>
+      <ul id="booksList"></ul>
+    </section>
+  </main>
+
+  <script>
+    const API_URL = 'http://localhost:3000';
+
+    async function fetchGenres() {
+      const response = await fetch(`${API_URL}/genres`);
+      const genres = await response.json();
+      populateGenres(genres);
+    }
+
+    function populateGenres(genres) {
+      const genreSelects = document.querySelectorAll('select');
+      genreSelects.forEach(select => {
+        select.innerHTML = '<option value="">Select A Book Genre</option>'; // Reset options
+        genres.forEach(genre => {
+          const option = document.createElement('option');
+          option.value = genre.id;
+          option.textContent = genre.name;
+          select.appendChild(option);
+        });
+      });
+    }
+
+    async function fetchBooks() {
+      const response = await fetch(`${API_URL}/books`);
+      const books = await response.json();
+      displayBooks(books);
+    }
+
+    function displayBooks(books) {
+      const booksList = document.getElementById('booksList');
+      booksList.innerHTML = '';
+
+      books.forEach(book => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('book-item');
+        listItem.innerHTML = `
+          <h3><i class="fas fa-book"></i>${book.title}</h3>
+          <p><strong>Author:</strong> ${book.author}</p>
+          <p><strong>Price:</strong> $${book.price}</p>
+          <p><strong>Copies Left:</strong> ${book.copies_left}</p>
+          <p><strong>Genre:</strong> ${book.genre ? book.genre.name : 'Not specified'}</p>
+          <div class="action-buttons">
+            <button onclick="showEditForm(${book.id})">Edit</button>
+            <button onclick="deleteBook(${book.id})">Delete</button>
+          </div>
+        `;
+        booksList.appendChild(listItem);
+      });
+    }
+
+    async function addGenre(event) {
+      event.preventDefault();
+      const genreName = document.getElementById('genreName').value;
+      const newGenre = { name: genreName };
+
+      await fetch(`${API_URL}/genres`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newGenre),
+      });
+
+      document.getElementById('genreName').value = '';
+      fetchGenres(); // Refresh the genre list
+    }
+
+    document.getElementById('addGenreForm').addEventListener('submit', addGenre);
+
+    async function showEditForm(bookId) {
+      const response = await fetch(`${API_URL}/books/${bookId}`);
+      const book = await response.json();
+
+      document.getElementById('editBookFormContainer').style.display = 'block';
+      document.getElementById('editBookId').value = book.id;
+      document.getElementById('editTitle').value = book.title;
+      document.getElementById('editAuthor').value = book.author;
+      document.getElementById('editPrice').value = book.price;
+      document.getElementById('editCopiesLeft').value = book.copies_left;
+      document.getElementById('editGenre').value = book.genre_id;
+
+      fetchGenres(); // Refresh the genre list
+    }
+
+    async function submitEdit(event) {
+      event.preventDefault();
+      const bookId = document.getElementById('editBookId').value;
+      const updatedBook = {
+        title: document.getElementById('editTitle').value,
+        author: document.getElementById('editAuthor').value,
+        price: parseFloat(document.getElementById('editPrice').value),
+        copies_left: parseInt(document.getElementById('editCopiesLeft').value),
+        genre_id: document.getElementById('editGenre').value || null,
+      };
+
+      await fetch(`${API_URL}/books/${bookId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedBook),
+      });
+
+      document.getElementById('editBookFormContainer').style.display = 'none';
+      fetchBooks();
+    }
+
+    async function deleteBook(bookId) {
+      await fetch(`${API_URL}/books/${bookId}`, { method: 'DELETE' });
+      fetchBooks();
+    }
+
+    document.getElementById('addBookForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const newBook = {
+        title: document.getElementById('title').value,
+        author: document.getElementById('author').value,
+        price: parseFloat(document.getElementById('price').value),
+        copies_left: parseInt(document.getElementById('copiesLeft').value),
+        genre_id: document.getElementById('genre').value || null,
+      };
+
+      await fetch(`${API_URL}/books`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newBook),
+      });
+
+      fetchBooks();
+    });
+
+    function searchBooks() {
+      const searchQuery = document.getElementById('searchBook').value.toLowerCase();
+      const booksList = document.getElementById('booksList');
+      const bookItems = booksList.getElementsByClassName('book-item');
+      
+      Array.from(bookItems).forEach(item => {
+        const bookTitle = item.querySelector('h3').textContent.toLowerCase();
+        if (bookTitle.includes(searchQuery)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    fetchGenres();
+    fetchBooks();
+  </script>
+</body>
+</html>
